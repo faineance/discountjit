@@ -12,15 +12,14 @@
 
 int main() {
 
-    void *code = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE | PROT_EXEC, MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
+    void *code = mmap(NULL, PAGE_SIZE, PROT_READ | PROT_WRITE , MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
 
-
-    int curr_offset = 0;
 
     int v = 0;
 
     memcpy(code, &&inc_start, &&inc_end - &&inc_start);
 
+    mprotect(code, PAGE_SIZE, PROT_READ | PROT_EXEC); // hah safety
     goto *code;
 
     inc_start:
